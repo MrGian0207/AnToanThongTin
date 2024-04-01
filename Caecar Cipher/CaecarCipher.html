@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Caecar Cipher</title>
+</head>
+<body>
+    <header id="header">
+        <h1 class="title">Caecar Cipher</h1>
+    </header>
+    <section id="content">
+        <a href="../index.html">Back</a>
+        <div style="display: flex; flex-direction: column; margin-top: 30px;">
+            <label class="label" for="">Mã Hóa Dữ Liệu</label>
+            <input class="inputEncrypt" type="text" placeholder="Nhập dữ liệu cần mã hóa">
+            <input class="inputKeyEncrypt" type="text" placeholder="Nhập k">
+            <button class="encrypt">Mã Hóa</button>
+            <label style="margin-top: 40px;" class="label" for="">Giải Mã Dữ Liệu</label>
+            <input class="inputDecrypt" type="text" placeholder="Nhập dữ liệu cần giải mãi">
+            <input class="inputKeyDecrypt" type="text" placeholder="Nhập k">
+            <button class="decrypt">Giải Mã</button>
+
+
+        </div>
+        <h2 class="content-title" style="display: none; margin: 48px 0 8px 0;">Lịch sử mã hóa</h2>
+        <div class="result"> </div>
+    </section>
+    <script src="./CaecarCipher.js"></script>
+</body>
+</html>
