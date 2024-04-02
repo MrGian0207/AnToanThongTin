@@ -61,8 +61,8 @@ class PlayfairCipher {
         for (const c of key) {
             if (!usedChars.includes(c)) {
                 result += c;
+                usedChars.push(c);
             }
-            usedChars.push(c);
         }
         return result;
     }
@@ -92,22 +92,19 @@ class PlayfairCipher {
     }
 
     mod5(num: number): number {
-        return num < 0 ? 5 + num % 5 : num % 5;
+        return num < 0 ? (5 + num) % 5 : num % 5;
     }
 
     encrypt(text: string, key: string): string {
         const table = this.getKeyTable(key);
         const positions = this.getCharsPosition(table);
-        text = this.normaliseOriginalText(text);
-        console.log(text);  
+        text = this.normaliseOriginalText(text); 
         let encryptedText = "";
         for (let i = 0; i < text.length; i += 2) {
             const coor1 = positions.get(text[i]);
             const coor2 = positions.get(text[i + 1]);
-            console.log(text[i + 1]);
             let pair = "";
             if (coor1 && coor2) {
-                
                 /* Same row */
                 if (coor1.x === coor2.x) {
                     pair = table[coor1.x][this.mod5(coor1.y + 1)] + table[coor2.x][this.mod5(coor2.y + 1)];
@@ -115,11 +112,11 @@ class PlayfairCipher {
                 /* Same column */
                 else if (coor1.y === coor2.y) {
                     pair = table[this.mod5(coor1.x + 1)][coor1.y] + table[this.mod5(coor2.x + 1)][coor2.y];
-                } else {
+                } 
+                else {
                     pair = table[coor1.x][coor2.y] + table[coor2.x][coor1.y];
                 }
                 encryptedText += pair;
-                
             }
         }
         return encryptedText;
