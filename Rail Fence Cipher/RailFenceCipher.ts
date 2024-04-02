@@ -1,91 +1,80 @@
 class RailFenceCipher {
-
   private key: number;
 
-  public getKey(): number { 
+  public getKey(): number {
     return this.key;
   }
-  
 
   public encryptRailFence(text: string, key: number): string {
     this.key = key;
 
+    // Tính số lượng hàng cần thiết
+    let countRows =
+      text.length % key !== 0
+        ? Math.floor(text.length / key + 1)
+        : text.length / key;
+
+    // Tạo ma trận với số lượng hàng và key cột
     let rail: string[][] = [];
-    for (let i = 0; i < key; i++) {
-      rail.push([]);
+    for (let i = 0; i < countRows; i++) {
+      rail.push(new Array(key).fill("*"));
     }
 
-    let rows = 0;
-    let columns = 0;
-    let indexStart = 0;
-    let indexStop = key - 1;
-
-    while (indexStart < text.length) {
-      rail[rows][columns++] = text[indexStart];
-
-      indexStart = indexStart + 1;
-      if (indexStart > indexStop) {
-        indexStop = indexStop + key;
-        columns = 0;
-        rows++;
-      }
-
-      if (indexStart === text.length && indexStop > indexStart) {
-        for (let j = indexStart; j <= indexStop; j++) {
-          rail[rows][columns++] = "*";
+    // Thực hiện việc điền ký tự vào ma trận
+    let index = 0;
+    for (let row = 0; row < countRows; row++) {
+      for (let column = 0; column < key; column++) {
+        if (index < text.length) {
+          rail[row][column] = text[index++];
+        } else {
+          break;
         }
       }
     }
 
+    // Tạo chuỗi kết quả từ ma trận theo cột
     let result = "";
-    let indexColumn = 0;
-    while (indexColumn < key) {
-      for (let row = 0; row <= rows; row++) {
-        result += rail[row][indexColumn];
-      }
-      indexColumn++;
-    }
-    return result;
-  }
-
-  public decryptRailFence(cipher: string, key: number): string {
-    let rail: string[][] = [];
-    for (let i = 0; i < key; i++) {
-      rail.push([]);
-    }
-
-    let countRows: number = 0;
-    let row: number = 0;
-
-    while (row < cipher.length) {
-      countRows++;
-      row += key;
-    }
-
-    let index: number = 0;
-    let column: number = 0;
-
-    while (column < key) {
+    for (let column = 0; column < key; column++) {
       for (let row = 0; row < countRows; row++) {
-        rail[row][column] = cipher[index++];
-      }
-      column++;
-    }
-
-    let result: string = "";
-    for (let row = 0; row < countRows; row++) {
-      for (let column = 0; column < key; column++) {
         result += rail[row][column];
       }
     }
 
-    let plaintText: string = "";
-    for (let i = 0; i < result.length; i++) {
-      if (result[i] !== "*") {
-        plaintText += result[i];
+    return result;
+  }
+
+  public decryptRailFence(cipher: string, key: number): string {
+    let countRows =
+      cipher.length % key !== 0
+        ? Math.floor(cipher.length / key + 1)
+        : cipher.length / key;
+
+    // Tạo ma trận với số lượng hàng và key cột
+    let rail: string[][] = [];
+    for (let i = 0; i < countRows; i++) {
+      rail.push(new Array(key).fill(" "));
+    }
+
+    // Điền các ký tự của chuỗi mã hóa vào ma trận theo từng cột
+    let index = 0;
+    for (let column = 0; column < key; column++) {
+      for (let row = 0; row < countRows; row++) {
+        if (index < cipher.length) {
+          rail[row][column] = cipher[index++];
+        } else {
+          break;
+        }
       }
     }
 
+    let plaintText: string = "";
+    for (let row = 0; row < countRows; row++) {
+      for (let column = 0; column < key; column++) {
+        if (rail[row][column] !== "*") {
+          plaintText += rail[row][column];
+        } else break;
+      }
+    }
     return plaintText;
   }
 }
@@ -125,7 +114,7 @@ btn_encrypt.addEventListener("click", () => {
   (content_title as HTMLElement).style.display = "block";
   const railFenceCipher = new RailFenceCipher();
   const cipher = railFenceCipher.encryptRailFence(
-    "attackpostponeduntilthisnoon",
+    plainText,
     parseInt(keyEncrypt)
   );
   const card_result = `<div class="card-result">
@@ -144,23 +133,26 @@ btn_encrypt.addEventListener("click", () => {
     .join("");
 });
 
-btn_decrypt.addEventListener("click", () => { 
+btn_decrypt.addEventListener("click", () => {
   (content_title as HTMLElement).style.display = "block";
   const railFenceCipher = new RailFenceCipher();
-  const decryptText = railFenceCipher.decryptRailFence(cipherText, parseInt(keyDecrypt)); 
-  const card_result = 
-  `<div class="card-result">
+  const decryptText = railFenceCipher.decryptRailFence(
+    cipherText,
+    parseInt(keyDecrypt)
+  );
+  const card_result = `<div class="card-result">
       <div class="card-result-header">Giải Mã " ${cipherText} "</div>
       <div class="card-result-body">
             <h5>Thông tin Giải mã</h5>
             <p>Bản rõ: ${decryptText}</p>
       </div>
-   </div>`
-  
+   </div>`;
+
   array_result.push(card_result);
 
-  result.innerHTML = array_result.map((value: string) => {
-    return value;
-  }).join('');
-})
-
+  result.innerHTML = array_result
+    .map((value: string) => {
+      return value;
+    })
+    .join("");
+});
