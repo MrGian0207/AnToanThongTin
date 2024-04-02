@@ -40,7 +40,7 @@ class PlayfairCipher {
         let result = "";
         for (const c of text) {
             if (/[a-zA-Z]/.test(c)) {
-                result += c === 'j' ? 'i' : c.toLowerCase();
+                result += c.toLowerCase() === 'j' ? 'i' : c.toLowerCase();
             }
         }
         return result;
@@ -52,8 +52,8 @@ class PlayfairCipher {
         for (const c of key) {
             if (!usedChars.includes(c)) {
                 result += c;
+                usedChars.push(c);
             }
-            usedChars.push(c);
         }
         return result;
     }
@@ -83,18 +83,16 @@ class PlayfairCipher {
         return chars;
     }
     mod5(num) {
-        return num < 0 ? 5 + num % 5 : num % 5;
+        return num < 0 ? (5 + num) % 5 : num % 5;
     }
     encrypt(text, key) {
         const table = this.getKeyTable(key);
         const positions = this.getCharsPosition(table);
         text = this.normaliseOriginalText(text);
-        console.log(text);
         let encryptedText = "";
         for (let i = 0; i < text.length; i += 2) {
             const coor1 = positions.get(text[i]);
             const coor2 = positions.get(text[i + 1]);
-            console.log(text[i + 1]);
             let pair = "";
             if (coor1 && coor2) {
                 /* Same row */
