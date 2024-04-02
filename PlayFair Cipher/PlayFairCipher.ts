@@ -48,7 +48,7 @@ class PlayfairCipher {
         let result = "";
         for (const c of text) {
             if (/[a-zA-Z]/.test(c)) {
-                result += c.toLowerCase();
+                result += c.toLowerCase() === 'j' ? 'i' : c.toLowerCase();
             }
         }
         return result;
@@ -99,12 +99,15 @@ class PlayfairCipher {
         const table = this.getKeyTable(key);
         const positions = this.getCharsPosition(table);
         text = this.normaliseOriginalText(text);
+        console.log(text);  
         let encryptedText = "";
         for (let i = 0; i < text.length; i += 2) {
             const coor1 = positions.get(text[i]);
             const coor2 = positions.get(text[i + 1]);
+            console.log(text[i + 1]);
             let pair = "";
             if (coor1 && coor2) {
+                
                 /* Same row */
                 if (coor1.x === coor2.x) {
                     pair = table[coor1.x][this.mod5(coor1.y + 1)] + table[coor2.x][this.mod5(coor2.y + 1)];
@@ -116,6 +119,7 @@ class PlayfairCipher {
                     pair = table[coor1.x][coor2.y] + table[coor2.x][coor1.y];
                 }
                 encryptedText += pair;
+                
             }
         }
         return encryptedText;
