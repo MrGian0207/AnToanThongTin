@@ -1,22 +1,10 @@
-function randomIntInRange(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 const UnicodeString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
 const length_UnicodeString = UnicodeString.length;
 class OneTimePad {
-    // public generatePad(length: number): string { 
-    //   let pad: string = "";
-    //   for(let i=0; i<length; i++) {
-    //     const index = randomIntInRange(0, length_UnicodeString-1);
-    //     pad += UnicodeString[index];
-    //   }
-    //   return pad; 
-    // }
     getPad() {
         return this.pad;
     }
     encrypt(plainText, key) {
-        // const pad = this.generatePad(plainText.length);
         if (key.length < plainText.length) {
             let lengthRestText = plainText.length - key.length;
             for (let i = 0; i < lengthRestText; i++) {
@@ -28,6 +16,7 @@ class OneTimePad {
         for (let i = 0; i < plainText.length; i++) {
             const indexCipher = UnicodeString.indexOf(plainText[i]) + UnicodeString.indexOf(key[i]);
             cipher += indexCipher >= length_UnicodeString ? UnicodeString[indexCipher - length_UnicodeString] : UnicodeString[indexCipher];
+            console.log(`plainText: ${plainText[i]}(${UnicodeString.indexOf(plainText[i])}) + key: ${key[i]}(${UnicodeString.indexOf(key[i])}) = cipherText: ${cipher[i]}(${UnicodeString.indexOf(cipher[i])})`);
         }
         return cipher;
     }

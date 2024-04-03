@@ -32,6 +32,7 @@ class RailFenceCipher {
                 result += rail[row][column];
             }
         }
+        console.log(rail);
         return result;
     }
     decryptRailFence(cipher, key) {
@@ -65,6 +66,7 @@ class RailFenceCipher {
                     break;
             }
         }
+        console.log(rail);
         return plaintText;
     }
 }

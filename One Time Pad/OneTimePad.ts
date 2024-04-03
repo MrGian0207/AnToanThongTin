@@ -1,7 +1,3 @@
-function randomIntInRange(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 const UnicodeString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
 const length_UnicodeString = UnicodeString.length;
 
@@ -14,7 +10,6 @@ class OneTimePad {
   }
 
   public encrypt(plainText: string, key: string): string {
-    // const pad = this.generatePad(plainText.length);
     if (key.length < plainText.length) {
       let lengthRestText: number = plainText.length - key.length;
         for (let i = 0; i < lengthRestText; i++) {
@@ -27,6 +22,9 @@ class OneTimePad {
     for (let i = 0; i < plainText.length; i++) {
         const indexCipher = UnicodeString.indexOf(plainText[i]) + UnicodeString.indexOf(key[i]);
         cipher += indexCipher >= length_UnicodeString ? UnicodeString[indexCipher - length_UnicodeString] : UnicodeString[indexCipher];
+
+        console.log(`plainText: ${plainText[i]}(${UnicodeString.indexOf(plainText[i])}) + key: ${key[i]}(${UnicodeString.indexOf(key[i])}) = cipherText: ${cipher[i]}(${UnicodeString.indexOf(cipher[i])})` )
+
     }
     return cipher;
   }

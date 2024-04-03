@@ -39,7 +39,7 @@ class RailFenceCipher {
         result += rail[row][column];
       }
     }
-
+console.log(rail);
     return result;
   }
 
@@ -75,6 +75,7 @@ class RailFenceCipher {
         } else break;
       }
     }
+    console.log(rail);
     return plaintText;
   }
 }
