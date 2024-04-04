@@ -101,7 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
         keyDecrypt = (_a = e.target) === null || _a === void 0 ? void 0 : _a.value;
     });
     const singleTableCipher = new SingleTableCipher();
-    // const plaintext = "Hello, World!";
     btn_generateKey.addEventListener("click", () => {
         // Generate cipher
         keyEncrypt = singleTableCipher.generateCipher();
@@ -111,14 +110,14 @@ document.addEventListener("DOMContentLoaded", function () {
         content_title.style.display = "block";
         const cipher = singleTableCipher.encode(plainText, keyEncrypt);
         const card_result = `<div class="card-result">
-                  <div class="card-result-header">Mã Hóa " ${plainText} "</div>
-                  <div class="card-result-body">
-                        <h5>Thông tin mã hóa</h5>
-                        <p>Key: "${keyEncrypt}"</p>
-                        <p>Bản mã: "${cipher}"</p>
-                        <p>Bản rõ: ${plainText}</p>
-                  </div>
-               </div>`;
+                    <div class="card-result-header">Mã Hóa " ${plainText} "</div>
+                    <div class="card-result-body">
+                          <h5>Thông tin mã hóa</h5>
+                          <p>Key: "${keyEncrypt}"</p>
+                          <p>Bản mã: "${cipher}"</p>
+                          <p>Bản rõ: ${plainText}</p>
+                    </div>
+                 </div>`;
         array_result.push(card_result);
         result.innerHTML = array_result
             .map((value) => {
@@ -128,14 +127,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     btn_decrypt.addEventListener("click", () => {
         content_title.style.display = "block";
-        const decryptText = singleTableCipher.decode(cipherText, singleTableCipher === null || singleTableCipher === void 0 ? void 0 : singleTableCipher.generatePlain(), keyDecrypt);
+        const decryptText = singleTableCipher.decode(cipherText, singleTableCipher.generatePlain(), keyDecrypt);
         const card_result = `<div class="card-result">
-                <div class="card-result-header">Giải Mã " ${cipherText} "</div>
-                <div class="card-result-body">
-                      <h5>Thông tin Giải mã</h5>
-                      <p>Bản rõ: ${decryptText}</p>
-                </div>
-             </div>`;
+                  <div class="card-result-header">Giải Mã " ${cipherText} "</div>
+                  <div class="card-result-body">
+                        <h5>Thông tin Giải mã</h5>
+                        <p>Bản rõ: ${decryptText}</p>
+                  </div>
+               </div>`;
         array_result.push(card_result);
         result.innerHTML = array_result
             .map((value) => {
