@@ -149,6 +149,7 @@ const inputEncrypt = document.querySelector(".inputEncrypt");
 const inputDecrypt = document.querySelector(".inputDecrypt");
 const inputkeyEncrypt = document.querySelector(".inputKeyEncrypt");
 const inputKeyDecrypt = document.querySelector(".inputKeyDecrypt");
+let grid = document.querySelector(".grid");
 const array_result = [];
 var plainText;
 var cipherText;
@@ -173,6 +174,14 @@ inputkeyEncrypt.addEventListener("change", (e) => {
 const playfairCipher = new PlayfairCipher();
 btn_encrypt.addEventListener("click", () => {
     content_title.style.display = "block";
+    const matrix = playfairCipher.getKeyTable(keyEncrypt);
+    grid.innerHTML = "";
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            let matrixItem = `<div class="grid-item">${matrix[i][j]}</div>`;
+            grid.innerHTML += matrixItem;
+        }
+    }
     const cipher = playfairCipher.encrypt(plainText, keyEncrypt);
     const card_result = `<div class="card-result">
           <div class="card-result-header">Mã Hóa " ${plainText} "</div>

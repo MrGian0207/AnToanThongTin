@@ -121,3 +121,20 @@ body {
 .autoKey {
     background-color: white;
 }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(27, 25px);
+    border: 1px solid #0d6efd;
+    width: fit-content;
+}
+
+.grid-item {
+    text-align: center;
+    color: black;
+    line-height: 25px;
+    background-color: white;
+    width: 100%;
+    height: 25px;
+    border: 1px solid #0d6efd;
+}
